@@ -1,0 +1,3 @@
+runpod
+huggingface_hub[cli]
+toml

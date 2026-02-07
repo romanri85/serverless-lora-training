@@ -1,0 +1,17 @@
+{
+  "input": {
+    "model_type": "flux",
+    "hf_dataset_repo": "username/my-dataset",
+    "hf_output_repo": "username/my-lora",
+    "hf_token": "hf_YOUR_TOKEN_HERE",
+    "caption_mode": "images",
+    "trigger_word": "ohwx",
+    "training_params": {
+      "epochs": 80,
+      "learning_rate": 2e-4,
+      "lora_rank": 32,
+      "save_every_n_epochs": 10,
+      "resolution": 1024
+    }
+  }
+}
