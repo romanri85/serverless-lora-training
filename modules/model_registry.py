@@ -153,7 +153,8 @@ MODEL_CONFIGS = {
     },
 }
 
-# HuggingFace download commands for setup_network_volume.sh
+# HuggingFace download commands for on-demand model downloads.
+# Each entry is a shell command (or chained commands) with {nv} and {token} placeholders.
 MODEL_DOWNLOADS = {
     "flux": "huggingface-cli download black-forest-labs/FLUX.1-dev --local-dir {nv}/models/flux --token {token}",
     "sdxl": "huggingface-cli download timoshishi/sdXL_v10VAEFix sdXL_v10VAEFix.safetensors --local-dir {nv}/models/",
@@ -162,6 +163,47 @@ MODEL_DOWNLOADS = {
     "wan14b_i2v": "huggingface-cli download Wan-AI/Wan2.1-I2V-14B-480P --local-dir {nv}/models/Wan/Wan2.1-I2V-14B-480P",
     "qwen": "huggingface-cli download Qwen/Qwen-Image --local-dir {nv}/models/Qwen-Image",
     "ltx_video": "huggingface-cli download Lightricks/LTX-Video --local-dir {nv}/models/LTX-Video",
+    "z_image_turbo": (
+        "mkdir -p {nv}/models/z_image && "
+        "huggingface-cli download Comfy-Org/z_image_turbo "
+        "split_files/diffusion_models/z_image_turbo_bf16.safetensors "
+        "split_files/vae/ae.safetensors "
+        "split_files/text_encoders/qwen_3_4b.safetensors "
+        "--local-dir /tmp/z_image_turbo_dl && "
+        "mv /tmp/z_image_turbo_dl/split_files/diffusion_models/z_image_turbo_bf16.safetensors {nv}/models/z_image/ && "
+        "mv /tmp/z_image_turbo_dl/split_files/vae/ae.safetensors {nv}/models/z_image/ && "
+        "mv /tmp/z_image_turbo_dl/split_files/text_encoders/qwen_3_4b.safetensors {nv}/models/z_image/ && "
+        "rm -rf /tmp/z_image_turbo_dl && "
+        "huggingface-cli download ostris/zimage_turbo_training_adapter "
+        "zimage_turbo_training_adapter_v2.safetensors "
+        "--local-dir {nv}/models/z_image"
+    ),
+    "z_image_base": (
+        "mkdir -p {nv}/models/z_image_base {nv}/models/z_image && "
+        "huggingface-cli download Comfy-Org/z_image "
+        "split_files/diffusion_models/z_image_bf16.safetensors "
+        "--local-dir /tmp/z_image_dl && "
+        "mv /tmp/z_image_dl/split_files/diffusion_models/z_image_bf16.safetensors {nv}/models/z_image_base/ && "
+        "rm -rf /tmp/z_image_dl && "
+        "test -f {nv}/models/z_image/ae.safetensors || ("
+        "huggingface-cli download Comfy-Org/z_image_turbo "
+        "split_files/vae/ae.safetensors "
+        "split_files/text_encoders/qwen_3_4b.safetensors "
+        "--local-dir /tmp/z_image_shared_dl && "
+        "mv /tmp/z_image_shared_dl/split_files/vae/ae.safetensors {nv}/models/z_image/ && "
+        "mv /tmp/z_image_shared_dl/split_files/text_encoders/qwen_3_4b.safetensors {nv}/models/z_image/ && "
+        "rm -rf /tmp/z_image_shared_dl)"
+    ),
+    "qwen_image_edit": (
+        "mkdir -p {nv}/models/qwen_image_edit && "
+        "huggingface-cli download Comfy-Org/Qwen-Image-Edit_ComfyUI "
+        "split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors "
+        "--local-dir /tmp/qwen_edit_dl && "
+        "mv /tmp/qwen_edit_dl/split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors {nv}/models/qwen_image_edit/ && "
+        "rm -rf /tmp/qwen_edit_dl && "
+        "test -d {nv}/models/Qwen-Image || "
+        "huggingface-cli download Qwen/Qwen-Image --local-dir {nv}/models/Qwen-Image"
+    ),
 }
 
 
