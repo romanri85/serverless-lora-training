@@ -20,7 +20,7 @@ TRAINING_OVERRIDES = {
 }
 
 
-def build_configs(model_type, network_volume, work_dir, dataset_info, training_params=None):
+def build_configs(model_type, network_volume, work_dir, dataset_info, training_params=None, num_gpus=1):
     """
     Build training TOML + dataset TOML from template and job params.
 
@@ -53,6 +53,10 @@ def build_configs(model_type, network_volume, work_dir, dataset_info, training_p
 
     # Set output dir
     training_config["output_dir"] = output_dir
+
+    # Set pipeline stages for multi-GPU (diffusion-pipe uses pipeline parallelism)
+    if num_gpus > 1:
+        training_config["pipeline_stages"] = num_gpus
 
     # Point to our generated dataset configs
     dataset_toml_path = os.path.join(work_dir, "dataset.toml")

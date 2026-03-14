@@ -38,7 +38,7 @@ BASE_MODEL_MAP = {
 }
 
 
-def upload_lora(checkpoint_dir, hf_output_repo, hf_token, model_type, training_params=None, private=False):
+def upload_lora(checkpoint_dir, hf_output_repo, hf_token, model_type, training_params=None, private=False, trigger_word=None):
     """
     Upload trained LoRA to HuggingFace Hub.
 
@@ -69,6 +69,13 @@ def upload_lora(checkpoint_dir, hf_output_repo, hf_token, model_type, training_p
         lr=training_params.get("learning_rate", "N/A"),
     )
 
+    # Write trigger word file if provided
+    if trigger_word:
+        trigger_path = os.path.join(checkpoint_dir, "trigger_word.txt")
+        with open(trigger_path, "w") as f:
+            f.write(trigger_word)
+        logger.info(f"Trigger word saved: {trigger_word}")
+
     # Write model card to checkpoint dir
     readme_path = os.path.join(checkpoint_dir, "README.md")
     with open(readme_path, "w") as f:
@@ -79,6 +86,79 @@ def upload_lora(checkpoint_dir, hf_output_repo, hf_token, model_type, training_p
         folder_path=checkpoint_dir,
         repo_id=hf_output_repo,
         commit_message=f"Upload {model_type} LoRA trained with diffusion-pipe",
+    )
+
+    repo_url = f"https://huggingface.co/{hf_output_repo}"
+    logger.info(f"Upload complete: {repo_url}")
+    return repo_url
+
+
+def upload_all_checkpoints(checkpoints, hf_output_repo, hf_token, model_type, training_params=None, private=False, trigger_word=None):
+    """
+    Upload all checkpoint directories to HuggingFace Hub.
+
+    The latest (highest epoch) checkpoint is uploaded to the repo root.
+    Earlier checkpoints are uploaded under subfolders (e.g. epoch20/, epoch40/).
+
+    Args:
+        checkpoints: List of (epoch_num, checkpoint_dir) tuples, sorted ascending
+        hf_output_repo: HF repo ID
+        hf_token: HuggingFace token
+        model_type: Model type string
+        training_params: Optional training params for model card
+        private: Whether repo is private
+        trigger_word: Optional trigger word to save as trigger_word.txt
+
+    Returns:
+        URL of the uploaded repo
+    """
+    if not checkpoints:
+        raise FileNotFoundError("No checkpoints found after training.")
+
+    training_params = training_params or {}
+    api = HfApi(token=hf_token)
+
+    logger.info(f"Creating/checking repo: {hf_output_repo}")
+    api.create_repo(repo_id=hf_output_repo, exist_ok=True, private=private)
+
+    latest_num, latest_dir = checkpoints[-1]
+
+    # Upload earlier checkpoints to subfolders
+    for epoch_num, ckpt_dir in checkpoints[:-1]:
+        folder_name = f"epoch{epoch_num}"
+        logger.info(f"Uploading checkpoint {folder_name} to {hf_output_repo}/{folder_name}...")
+        api.upload_folder(
+            folder_path=ckpt_dir,
+            repo_id=hf_output_repo,
+            path_in_repo=folder_name,
+            commit_message=f"Upload {model_type} LoRA checkpoint epoch {epoch_num}",
+        )
+
+    # Upload latest checkpoint to repo root (with model card and trigger word)
+    model_card = MODEL_CARD_TEMPLATE.format(
+        model_type=model_type,
+        base_model=BASE_MODEL_MAP.get(model_type, "unknown"),
+        repo_id=hf_output_repo,
+        epochs=training_params.get("epochs", "N/A"),
+        rank=training_params.get("lora_rank", 32),
+        lr=training_params.get("learning_rate", "N/A"),
+    )
+
+    if trigger_word:
+        trigger_path = os.path.join(latest_dir, "trigger_word.txt")
+        with open(trigger_path, "w") as f:
+            f.write(trigger_word)
+        logger.info(f"Trigger word saved: {trigger_word}")
+
+    readme_path = os.path.join(latest_dir, "README.md")
+    with open(readme_path, "w") as f:
+        f.write(model_card)
+
+    logger.info(f"Uploading final checkpoint (epoch {latest_num}) to {hf_output_repo} root...")
+    api.upload_folder(
+        folder_path=latest_dir,
+        repo_id=hf_output_repo,
+        commit_message=f"Upload {model_type} LoRA final checkpoint (epoch {latest_num})",
     )
 
     repo_url = f"https://huggingface.co/{hf_output_repo}"

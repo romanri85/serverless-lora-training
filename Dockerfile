@@ -1,4 +1,4 @@
-# RunPod SLT (Serverless LoRA Training) Worker
+# LoRA Training Server
 FROM nvidia/cuda:12.8.1-runtime-ubuntu24.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -8,12 +8,14 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     CMAKE_BUILD_PARALLEL_LEVEL=8 \
     TORCH_CUDA_ARCH_LIST="8.0;8.6;8.9;9.0" \
-    DS_BUILD_OPS=0
+    DS_BUILD_OPS=0 \
+    NETWORK_VOLUME=/workspace/models \
+    HF_HUB_ENABLE_HF_TRANSFER=1
 
 # System dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 python3-pip python3-venv curl zip git git-lfs wget vim \
-    libgl1 libglib2.0-0 python3-dev build-essential gcc \
+    libgl1 libglib2.0-0 python3-dev build-essential gcc cuda-nvcc-12-8 \
     && ln -sf /usr/bin/python3 /usr/bin/python \
     && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && apt-get clean \
@@ -28,33 +30,34 @@ RUN pip install --no-cache-dir torch torchvision torchaudio
 # Clone diffusion-pipe
 RUN git clone --recurse-submodules https://github.com/tdrussell/diffusion-pipe /diffusion_pipe
 
+# Patch: skip metadata keys (e.g. __index_timestep_zero__) in ComfyUI safetensors files
+RUN sed -i '/for key, tensor in iterate_safetensors(transformer_path):/a\            if key.startswith("__"):\n                continue' /diffusion_pipe/models/qwen_image.py
+
 # Install diffusion-pipe requirements (excluding flash-attn — installed at runtime)
 RUN grep -v -i "flash-attn\|flash-attention" /diffusion_pipe/requirements.txt > /tmp/requirements_no_flash.txt && \
     pip install --no-cache-dir -r /tmp/requirements_no_flash.txt && \
     rm /tmp/requirements_no_flash.txt
 
-# Pre-install flash-attn wheel for H100 (sm_90) — most common RunPod GPU
+# Pre-install flash-attn wheel for H100 (sm_90)
 RUN pip install --no-cache-dir https://github.com/mjun0812/flash-attention-prebuild-wheels/releases/download/v0.7.16/flash_attn-2.8.3+cu128torch2.10-cp312-cp312-linux_x86_64.whl || true
 
 # Upgrade key packages
 RUN pip install --no-cache-dir transformers -U && \
-    pip install --no-cache-dir --upgrade "huggingface_hub[cli]" && \
+    pip install --no-cache-dir --upgrade "huggingface_hub[cli]" hf_transfer && \
     pip install --no-cache-dir --upgrade "peft>=0.17.0" && \
     pip uninstall -y diffusers && \
     pip install --no-cache-dir git+https://github.com/huggingface/diffusers
 
-# Install handler requirements
+# Install app requirements
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Copy application code
 COPY handler.py /app/handler.py
+COPY http_server.py /app/http_server.py
 COPY modules/ /app/modules/
 COPY toml_templates/ /app/toml_templates/
 
 WORKDIR /app
 
-# Default network volume path
-ENV NETWORK_VOLUME=/runpod-volume
-
-CMD ["python", "handler.py"]
+CMD ["python", "http_server.py"]

@@ -23,6 +23,7 @@ eval_gradient_accumulation_steps = 1
 [model]
 type = 'ltx-video'
 diffusers_path = '/models/LTX-Video'
+single_file_path = '/models/LTX-Video/ltxv-13b-0.9.8-dev.safetensors'
 dtype = 'bfloat16'
 timestep_sample_method = 'logit_normal'
 

@@ -1,0 +1,56 @@
+# Wan 2.2 I2V A14B - HIGH NOISE expert
+# Handles global composition, motion planning, and coarse structure for image-to-video.
+# REQUIRES video clips in dataset (cannot train with images only).
+# min_t=0.9, max_t=1 restricts training to the high-noise timestep range.
+# I2V boundary is 0.9 (not 0.875 like T2V).
+output_dir = '/data/diffusion_pipe_training_runs/wan22_i2v_high_loras'
+
+dataset = 'examples/dataset.toml'
+eval_datasets = [
+    {name = 'eval', config = 'examples/eval_dataset.toml'},
+]
+
+# training settings
+epochs = 100
+micro_batch_size_per_gpu = 1
+pipeline_stages = 1
+gradient_accumulation_steps = 4
+gradient_clipping = 1.0
+warmup_steps = 100
+
+# eval settings
+eval_every_n_epochs = 1
+eval_before_first_step = true
+eval_micro_batch_size_per_gpu = 1
+eval_gradient_accumulation_steps = 1
+
+# misc settings
+save_every_n_epochs = 10
+checkpoint_every_n_minutes = 120
+activation_checkpointing = true
+partition_method = 'parameters'
+save_dtype = 'bfloat16'
+caching_batch_size = 1
+steps_per_print = 1
+video_clip_mode = 'single_middle'
+
+[model]
+type = 'wan'
+ckpt_path = '/Wan/Wan2.2-I2V-A14B'
+transformer_path = '/Wan/Wan2.2-I2V-A14B/high_noise_model'
+dtype = 'bfloat16'
+transformer_dtype = 'float8'
+min_t = 0.9
+max_t = 1
+
+[adapter]
+type = 'lora'
+rank = 64
+dtype = 'bfloat16'
+
+[optimizer]
+type = 'adamw_optimi'
+lr = 3e-5
+betas = [0.9, 0.99]
+weight_decay = 0.01
+eps = 1e-8

@@ -24,43 +24,43 @@ download_flux() {
         echo "ERROR: HF_TOKEN required for Flux. Export HF_TOKEN and retry."
         return 1
     fi
-    huggingface-cli download black-forest-labs/FLUX.1-dev --local-dir "$NV/models/flux" --token "$HF_TOKEN"
+    hf download black-forest-labs/FLUX.1-dev --local-dir "$NV/models/flux" --token "$HF_TOKEN"
     echo "✅ Flux downloaded"
 }
 
 download_sdxl() {
     echo "Downloading SDXL v1.0 VAE Fix..."
-    huggingface-cli download timoshishi/sdXL_v10VAEFix sdXL_v10VAEFix.safetensors --local-dir "$NV/models/"
+    hf download timoshishi/sdXL_v10VAEFix sdXL_v10VAEFix.safetensors --local-dir "$NV/models/"
     echo "✅ SDXL downloaded"
 }
 
 download_wan13() {
     echo "Downloading Wan2.1-T2V-1.3B..."
-    huggingface-cli download Wan-AI/Wan2.1-T2V-1.3B --local-dir "$NV/models/Wan/Wan2.1-T2V-1.3B"
+    hf download Wan-AI/Wan2.1-T2V-1.3B --local-dir "$NV/models/Wan/Wan2.1-T2V-1.3B"
     echo "✅ Wan 1.3B downloaded"
 }
 
 download_wan14b_t2v() {
     echo "Downloading Wan2.1-T2V-14B..."
-    huggingface-cli download Wan-AI/Wan2.1-T2V-14B --local-dir "$NV/models/Wan/Wan2.1-T2V-14B"
+    hf download Wan-AI/Wan2.1-T2V-14B --local-dir "$NV/models/Wan/Wan2.1-T2V-14B"
     echo "✅ Wan 14B T2V downloaded"
 }
 
 download_wan14b_i2v() {
     echo "Downloading Wan2.1-I2V-14B-480P..."
-    huggingface-cli download Wan-AI/Wan2.1-I2V-14B-480P --local-dir "$NV/models/Wan/Wan2.1-I2V-14B-480P"
+    hf download Wan-AI/Wan2.1-I2V-14B-480P --local-dir "$NV/models/Wan/Wan2.1-I2V-14B-480P"
     echo "✅ Wan 14B I2V downloaded"
 }
 
 download_qwen() {
-    echo "Downloading Qwen-Image..."
-    huggingface-cli download Qwen/Qwen-Image --local-dir "$NV/models/Qwen-Image"
-    echo "✅ Qwen-Image downloaded"
+    echo "Downloading Qwen-Image-2512..."
+    hf download Qwen/Qwen-Image-2512 --local-dir "$NV/models/Qwen-Image-2512"
+    echo "✅ Qwen-Image-2512 downloaded"
 }
 
 download_ltx_video() {
     echo "Downloading LTX-Video..."
-    huggingface-cli download Lightricks/LTX-Video --local-dir "$NV/models/LTX-Video"
+    hf download Lightricks/LTX-Video --local-dir "$NV/models/LTX-Video"
     echo "✅ LTX-Video downloaded"
 }
 

@@ -38,6 +38,12 @@ def caption_images(image_dir, trigger_word=None):
         logger.info(f"Loading JoyCaption model: {model_name}")
 
         processor = AutoProcessor.from_pretrained(model_name, trust_remote_code=True)
+
+        # Fix: PyTorch doesn't support lanczos interpolation for tensors.
+        # Override to bicubic which is the closest supported mode.
+        if hasattr(processor, 'image_processor'):
+            processor.image_processor.resample = 3  # PILImageResampling.BICUBIC
+
         model = LlavaForConditionalGeneration.from_pretrained(
             model_name,
             torch_dtype="bfloat16",

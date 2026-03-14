@@ -23,10 +23,11 @@ TRAIN_PROGRESS_END = 90
 
 
 class TrainingRunner:
-    def __init__(self, training_toml, work_dir, total_epochs=None, diffusion_pipe_dir="/diffusion_pipe"):
+    def __init__(self, training_toml, work_dir, total_epochs=None, num_gpus=1, diffusion_pipe_dir="/diffusion_pipe"):
         self.training_toml = training_toml
         self.work_dir = work_dir
         self.total_epochs = total_epochs
+        self.num_gpus = num_gpus
         self.diffusion_pipe_dir = diffusion_pipe_dir
         self.process = None
         self._terminated = False
@@ -52,7 +53,7 @@ class TrainingRunner:
 
         cmd = [
             "deepspeed",
-            "--num_gpus=1",
+            f"--num_gpus={self.num_gpus}",
             train_script,
             "--deepspeed",
             "--config", self.training_toml,
@@ -222,6 +223,54 @@ def find_latest_checkpoint(output_dir):
     latest = model_dirs[0][1]
     logger.info(f"Latest checkpoint: {latest}")
     return str(latest)
+
+
+def find_all_checkpoints(output_dir):
+    """Find all saved LoRA checkpoint directories, sorted by epoch/step number.
+
+    Returns list of (number, path) tuples sorted ascending, e.g.:
+      [(20, '/path/epoch20'), (40, '/path/epoch40'), (80, '/path/epoch80')]
+    """
+    output_path = Path(output_dir)
+    if not output_path.exists():
+        return []
+
+    def _find_model_dirs(search_dir):
+        found = []
+        for d in search_dir.iterdir():
+            if not d.is_dir():
+                continue
+            name = d.name
+            if name.startswith("global_step"):
+                continue
+            if name.startswith("epoch"):
+                try:
+                    found.append((int(name[5:]), d))
+                except ValueError:
+                    continue
+            elif name.startswith("step"):
+                try:
+                    found.append((int(name[4:]), d))
+                except ValueError:
+                    continue
+        return found
+
+    model_dirs = []
+    subdirs = sorted(
+        [d for d in output_path.iterdir() if d.is_dir()],
+        key=lambda d: d.name,
+        reverse=True,
+    )
+    for run_dir in subdirs:
+        model_dirs = _find_model_dirs(run_dir)
+        if model_dirs:
+            break
+
+    if not model_dirs:
+        model_dirs = _find_model_dirs(output_path)
+
+    model_dirs.sort(key=lambda x: x[0])
+    return [(num, str(path)) for num, path in model_dirs]
 
 
 def _epoch_to_progress(current, total):

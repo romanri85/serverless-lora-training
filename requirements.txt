@@ -1,3 +1,5 @@
-runpod
 huggingface_hub[cli]
 toml
+boto3
+fastapi
+uvicorn

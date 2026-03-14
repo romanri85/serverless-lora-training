@@ -22,7 +22,7 @@ eval_gradient_accumulation_steps = 1
 
 [model]
 type = 'qwen_image'
-diffusers_path = '/models/Qwen-Image'
+diffusers_path = '/models/Qwen-Image-2512'
 dtype = 'bfloat16'
 transformer_dtype = 'float8'
 timestep_sample_method = 'logit_normal'

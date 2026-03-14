@@ -22,8 +22,7 @@ MODEL_CONFIGS = {
         "requires_hf_token": False,
         "supports_video": False,
         "path_replacements": {
-            "checkpoint_path = '/models/sdXL_v10VAEFix.safetensors'":
-                "checkpoint_path = '{nv}/models/sdXL_v10VAEFix.safetensors'",
+            "checkpoint_path = '/models/sdXL_v10VAEFix.safetensors'": "checkpoint_path = '{nv}/models/sdXL_v10VAEFix.safetensors'",
         },
         "validation_paths": [
             "{nv}/models/sdXL_v10VAEFix.safetensors",
@@ -35,8 +34,7 @@ MODEL_CONFIGS = {
         "requires_hf_token": False,
         "supports_video": True,
         "path_replacements": {
-            "ckpt_path = '/Wan/Wan2.1-T2V-1.3B'":
-                "ckpt_path = '{nv}/models/Wan/Wan2.1-T2V-1.3B'",
+            "ckpt_path = '/Wan/Wan2.1-T2V-1.3B'": "ckpt_path = '{nv}/models/Wan/Wan2.1-T2V-1.3B'",
         },
         "validation_paths": [
             "{nv}/models/Wan/Wan2.1-T2V-1.3B",
@@ -48,8 +46,7 @@ MODEL_CONFIGS = {
         "requires_hf_token": False,
         "supports_video": True,
         "path_replacements": {
-            "ckpt_path = '/Wan/Wan2.1-T2V-14B'":
-                "ckpt_path = '{nv}/models/Wan/Wan2.1-T2V-14B'",
+            "ckpt_path = '/Wan/Wan2.1-T2V-14B'": "ckpt_path = '{nv}/models/Wan/Wan2.1-T2V-14B'",
         },
         "validation_paths": [
             "{nv}/models/Wan/Wan2.1-T2V-14B",
@@ -61,8 +58,7 @@ MODEL_CONFIGS = {
         "requires_hf_token": False,
         "supports_video": True,
         "path_replacements": {
-            "ckpt_path = '/Wan/Wan2.1-I2V-14B-480P'":
-                "ckpt_path = '{nv}/models/Wan/Wan2.1-I2V-14B-480P'",
+            "ckpt_path = '/Wan/Wan2.1-I2V-14B-480P'": "ckpt_path = '{nv}/models/Wan/Wan2.1-I2V-14B-480P'",
         },
         "validation_paths": [
             "{nv}/models/Wan/Wan2.1-I2V-14B-480P",
@@ -74,11 +70,10 @@ MODEL_CONFIGS = {
         "requires_hf_token": False,
         "supports_video": False,
         "path_replacements": {
-            "diffusers_path = '/models/Qwen-Image'":
-                "diffusers_path = '{nv}/models/Qwen-Image'",
+            "diffusers_path = '/models/Qwen-Image-2512'": "diffusers_path = '{nv}/models/Qwen-Image-2512'",
         },
         "validation_paths": [
-            "{nv}/models/Qwen-Image",
+            "{nv}/models/Qwen-Image-2512",
         ],
     },
     "z_image_turbo": {
@@ -87,14 +82,10 @@ MODEL_CONFIGS = {
         "requires_hf_token": False,
         "supports_video": False,
         "path_replacements": {
-            "diffusion_model = '/models/z_image/z_image_turbo_bf16.safetensors'":
-                "diffusion_model = '{nv}/models/z_image/z_image_turbo_bf16.safetensors'",
-            "vae = '/models/z_image/ae.safetensors'":
-                "vae = '{nv}/models/z_image/ae.safetensors'",
-            "path = '/models/z_image/qwen_3_4b.safetensors'":
-                "path = '{nv}/models/z_image/qwen_3_4b.safetensors'",
-            "merge_adapters = ['/models/z_image/zimage_turbo_training_adapter_v2.safetensors']":
-                "merge_adapters = ['{nv}/models/z_image/zimage_turbo_training_adapter_v2.safetensors']",
+            "diffusion_model = '/models/z_image/z_image_turbo_bf16.safetensors'": "diffusion_model = '{nv}/models/z_image/z_image_turbo_bf16.safetensors'",
+            "vae = '/models/z_image/ae.safetensors'": "vae = '{nv}/models/z_image/ae.safetensors'",
+            "path = '/models/z_image/qwen_3_4b.safetensors'": "path = '{nv}/models/z_image/qwen_3_4b.safetensors'",
+            "merge_adapters = ['/models/z_image/zimage_turbo_training_adapter_v2.safetensors']": "merge_adapters = ['{nv}/models/z_image/zimage_turbo_training_adapter_v2.safetensors']",
         },
         "validation_paths": [
             "{nv}/models/z_image/z_image_turbo_bf16.safetensors",
@@ -109,10 +100,8 @@ MODEL_CONFIGS = {
         "requires_hf_token": False,
         "supports_video": False,
         "path_replacements": {
-            "diffusers_path = '/models/Qwen-Image'":
-                "diffusers_path = '{nv}/models/Qwen-Image'",
-            "transformer_path = '/models/qwen_image_edit/qwen_image_edit_2511_bf16.safetensors'":
-                "transformer_path = '{nv}/models/qwen_image_edit/qwen_image_edit_2511_bf16.safetensors'",
+            "diffusers_path = '/models/Qwen-Image'": "diffusers_path = '{nv}/models/Qwen-Image'",
+            "transformer_path = '/models/qwen_image_edit/qwen_image_edit_2511_bf16.safetensors'": "transformer_path = '{nv}/models/qwen_image_edit/qwen_image_edit_2511_bf16.safetensors'",
         },
         "validation_paths": [
             "{nv}/models/Qwen-Image",
@@ -125,12 +114,9 @@ MODEL_CONFIGS = {
         "requires_hf_token": False,
         "supports_video": False,
         "path_replacements": {
-            "diffusion_model = '/models/z_image_base/z_image_bf16.safetensors'":
-                "diffusion_model = '{nv}/models/z_image_base/z_image_bf16.safetensors'",
-            "vae = '/models/z_image/ae.safetensors'":
-                "vae = '{nv}/models/z_image/ae.safetensors'",
-            "path = '/models/z_image/qwen_3_4b.safetensors'":
-                "path = '{nv}/models/z_image/qwen_3_4b.safetensors'",
+            "diffusion_model = '/models/z_image_base/z_image_bf16.safetensors'": "diffusion_model = '{nv}/models/z_image_base/z_image_bf16.safetensors'",
+            "vae = '/models/z_image/ae.safetensors'": "vae = '{nv}/models/z_image/ae.safetensors'",
+            "path = '/models/z_image/qwen_3_4b.safetensors'": "path = '{nv}/models/z_image/qwen_3_4b.safetensors'",
         },
         "validation_paths": [
             "{nv}/models/z_image_base/z_image_bf16.safetensors",
@@ -144,11 +130,80 @@ MODEL_CONFIGS = {
         "requires_hf_token": False,
         "supports_video": True,
         "path_replacements": {
-            "diffusers_path = '/models/LTX-Video'":
-                "diffusers_path = '{nv}/models/LTX-Video'",
+            "diffusers_path = '/models/LTX-Video'": "diffusers_path = '{nv}/models/LTX-Video'",
+            "single_file_path = '/models/LTX-Video/ltxv-13b-0.9.8-dev.safetensors'": "single_file_path = '{nv}/models/LTX-Video/ltxv-13b-0.9.8-dev.safetensors'",
         },
         "validation_paths": [
             "{nv}/models/LTX-Video",
+            "{nv}/models/LTX-Video/ltxv-13b-0.9.8-dev.safetensors",
+        ],
+    },
+    "flux2": {
+        "toml_template": "flux2.toml",
+        "default_epochs": 80,
+        "requires_hf_token": False,
+        "supports_video": False,
+        "path_replacements": {
+            "diffusion_model = '/models/flux2/flux2_dev_fp8mixed.safetensors'": "diffusion_model = '{nv}/models/flux2/flux2_dev_fp8mixed.safetensors'",
+            "vae = '/models/flux2/flux2-vae.safetensors'": "vae = '{nv}/models/flux2/flux2-vae.safetensors'",
+            "path = '/models/flux2/mistral_3_small_flux2_fp8.safetensors'": "path = '{nv}/models/flux2/mistral_3_small_flux2_fp8.safetensors'",
+        },
+        "validation_paths": [
+            "{nv}/models/flux2/flux2_dev_fp8mixed.safetensors",
+            "{nv}/models/flux2/flux2-vae.safetensors",
+            "{nv}/models/flux2/mistral_3_small_flux2_fp8.safetensors",
+        ],
+    },
+    "wan22_t2v_high": {
+        "toml_template": "wan22_t2v_high.toml",
+        "default_epochs": 100,
+        "requires_hf_token": False,
+        "supports_video": True,
+        "path_replacements": {
+            "ckpt_path = '/Wan/Wan2.2-T2V-A14B'": "ckpt_path = '{nv}/models/Wan/Wan2.2-T2V-A14B'",
+            "transformer_path = '/Wan/Wan2.2-T2V-A14B/high_noise_model'": "transformer_path = '{nv}/models/Wan/Wan2.2-T2V-A14B/high_noise_model'",
+        },
+        "validation_paths": [
+            "{nv}/models/Wan/Wan2.2-T2V-A14B/high_noise_model",
+        ],
+    },
+    "wan22_t2v_low": {
+        "toml_template": "wan22_t2v_low.toml",
+        "default_epochs": 200,
+        "requires_hf_token": False,
+        "supports_video": True,
+        "path_replacements": {
+            "ckpt_path = '/Wan/Wan2.2-T2V-A14B'": "ckpt_path = '{nv}/models/Wan/Wan2.2-T2V-A14B'",
+            "transformer_path = '/Wan/Wan2.2-T2V-A14B/low_noise_model'": "transformer_path = '{nv}/models/Wan/Wan2.2-T2V-A14B/low_noise_model'",
+        },
+        "validation_paths": [
+            "{nv}/models/Wan/Wan2.2-T2V-A14B/low_noise_model",
+        ],
+    },
+    "wan22_i2v_high": {
+        "toml_template": "wan22_i2v_high.toml",
+        "default_epochs": 100,
+        "requires_hf_token": False,
+        "supports_video": True,
+        "path_replacements": {
+            "ckpt_path = '/Wan/Wan2.2-I2V-A14B'": "ckpt_path = '{nv}/models/Wan/Wan2.2-I2V-A14B'",
+            "transformer_path = '/Wan/Wan2.2-I2V-A14B/high_noise_model'": "transformer_path = '{nv}/models/Wan/Wan2.2-I2V-A14B/high_noise_model'",
+        },
+        "validation_paths": [
+            "{nv}/models/Wan/Wan2.2-I2V-A14B/high_noise_model",
+        ],
+    },
+    "wan22_i2v_low": {
+        "toml_template": "wan22_i2v_low.toml",
+        "default_epochs": 200,
+        "requires_hf_token": False,
+        "supports_video": True,
+        "path_replacements": {
+            "ckpt_path = '/Wan/Wan2.2-I2V-A14B'": "ckpt_path = '{nv}/models/Wan/Wan2.2-I2V-A14B'",
+            "transformer_path = '/Wan/Wan2.2-I2V-A14B/low_noise_model'": "transformer_path = '{nv}/models/Wan/Wan2.2-I2V-A14B/low_noise_model'",
+        },
+        "validation_paths": [
+            "{nv}/models/Wan/Wan2.2-I2V-A14B/low_noise_model",
         ],
     },
 }
@@ -156,16 +211,16 @@ MODEL_CONFIGS = {
 # HuggingFace download commands for on-demand model downloads.
 # Each entry is a shell command (or chained commands) with {nv} and {token} placeholders.
 MODEL_DOWNLOADS = {
-    "flux": "huggingface-cli download black-forest-labs/FLUX.1-dev --local-dir {nv}/models/flux --token {token}",
-    "sdxl": "huggingface-cli download timoshishi/sdXL_v10VAEFix sdXL_v10VAEFix.safetensors --local-dir {nv}/models/",
-    "wan13": "huggingface-cli download Wan-AI/Wan2.1-T2V-1.3B --local-dir {nv}/models/Wan/Wan2.1-T2V-1.3B",
-    "wan14b_t2v": "huggingface-cli download Wan-AI/Wan2.1-T2V-14B --local-dir {nv}/models/Wan/Wan2.1-T2V-14B",
-    "wan14b_i2v": "huggingface-cli download Wan-AI/Wan2.1-I2V-14B-480P --local-dir {nv}/models/Wan/Wan2.1-I2V-14B-480P",
-    "qwen": "huggingface-cli download Qwen/Qwen-Image --local-dir {nv}/models/Qwen-Image",
-    "ltx_video": "huggingface-cli download Lightricks/LTX-Video --local-dir {nv}/models/LTX-Video",
+    "flux": "hf download black-forest-labs/FLUX.1-dev --local-dir {nv}/models/flux --token {token}",
+    "sdxl": "hf download timoshishi/sdXL_v10VAEFix sdXL_v10VAEFix.safetensors --local-dir {nv}/models/",
+    "wan13": "hf download Wan-AI/Wan2.1-T2V-1.3B --local-dir {nv}/models/Wan/Wan2.1-T2V-1.3B",
+    "wan14b_t2v": "hf download Wan-AI/Wan2.1-T2V-14B --local-dir {nv}/models/Wan/Wan2.1-T2V-14B",
+    "wan14b_i2v": "hf download Wan-AI/Wan2.1-I2V-14B-480P --local-dir {nv}/models/Wan/Wan2.1-I2V-14B-480P",
+    "qwen": "hf download Qwen/Qwen-Image-2512 --local-dir {nv}/models/Qwen-Image-2512",
+    "ltx_video": "hf download Lightricks/LTX-Video --local-dir {nv}/models/LTX-Video",
     "z_image_turbo": (
         "mkdir -p {nv}/models/z_image && "
-        "huggingface-cli download Comfy-Org/z_image_turbo "
+        "hf download Comfy-Org/z_image_turbo "
         "split_files/diffusion_models/z_image_turbo_bf16.safetensors "
         "split_files/vae/ae.safetensors "
         "split_files/text_encoders/qwen_3_4b.safetensors "
@@ -174,19 +229,19 @@ MODEL_DOWNLOADS = {
         "mv /tmp/z_image_turbo_dl/split_files/vae/ae.safetensors {nv}/models/z_image/ && "
         "mv /tmp/z_image_turbo_dl/split_files/text_encoders/qwen_3_4b.safetensors {nv}/models/z_image/ && "
         "rm -rf /tmp/z_image_turbo_dl && "
-        "huggingface-cli download ostris/zimage_turbo_training_adapter "
+        "hf download ostris/zimage_turbo_training_adapter "
         "zimage_turbo_training_adapter_v2.safetensors "
         "--local-dir {nv}/models/z_image"
     ),
     "z_image_base": (
         "mkdir -p {nv}/models/z_image_base {nv}/models/z_image && "
-        "huggingface-cli download Comfy-Org/z_image "
+        "hf download Comfy-Org/z_image "
         "split_files/diffusion_models/z_image_bf16.safetensors "
         "--local-dir /tmp/z_image_dl && "
         "mv /tmp/z_image_dl/split_files/diffusion_models/z_image_bf16.safetensors {nv}/models/z_image_base/ && "
         "rm -rf /tmp/z_image_dl && "
         "test -f {nv}/models/z_image/ae.safetensors || ("
-        "huggingface-cli download Comfy-Org/z_image_turbo "
+        "hf download Comfy-Org/z_image_turbo "
         "split_files/vae/ae.safetensors "
         "split_files/text_encoders/qwen_3_4b.safetensors "
         "--local-dir /tmp/z_image_shared_dl && "
@@ -196,14 +251,30 @@ MODEL_DOWNLOADS = {
     ),
     "qwen_image_edit": (
         "mkdir -p {nv}/models/qwen_image_edit && "
-        "huggingface-cli download Comfy-Org/Qwen-Image-Edit_ComfyUI "
+        "hf download Comfy-Org/Qwen-Image-Edit_ComfyUI "
         "split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors "
         "--local-dir /tmp/qwen_edit_dl && "
         "mv /tmp/qwen_edit_dl/split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors {nv}/models/qwen_image_edit/ && "
         "rm -rf /tmp/qwen_edit_dl && "
         "test -d {nv}/models/Qwen-Image || "
-        "huggingface-cli download Qwen/Qwen-Image --local-dir {nv}/models/Qwen-Image"
+        "hf download Qwen/Qwen-Image --local-dir {nv}/models/Qwen-Image"
     ),
+    "flux2": (
+        "mkdir -p {nv}/models/flux2 && "
+        "hf download Comfy-Org/flux2-dev "
+        "split_files/diffusion_models/flux2_dev_fp8mixed.safetensors "
+        "split_files/text_encoders/mistral_3_small_flux2_fp8.safetensors "
+        "split_files/vae/flux2-vae.safetensors "
+        "--local-dir /tmp/flux2_dl && "
+        "mv /tmp/flux2_dl/split_files/diffusion_models/flux2_dev_fp8mixed.safetensors {nv}/models/flux2/ && "
+        "mv /tmp/flux2_dl/split_files/text_encoders/mistral_3_small_flux2_fp8.safetensors {nv}/models/flux2/ && "
+        "mv /tmp/flux2_dl/split_files/vae/flux2-vae.safetensors {nv}/models/flux2/ && "
+        "rm -rf /tmp/flux2_dl"
+    ),
+    "wan22_t2v_high": "hf download Wan-AI/Wan2.2-T2V-A14B --local-dir {nv}/models/Wan/Wan2.2-T2V-A14B",
+    "wan22_t2v_low": "hf download Wan-AI/Wan2.2-T2V-A14B --local-dir {nv}/models/Wan/Wan2.2-T2V-A14B",
+    "wan22_i2v_high": "hf download Wan-AI/Wan2.2-I2V-A14B --local-dir {nv}/models/Wan/Wan2.2-I2V-A14B",
+    "wan22_i2v_low": "hf download Wan-AI/Wan2.2-I2V-A14B --local-dir {nv}/models/Wan/Wan2.2-I2V-A14B",
 }
 
 
