@@ -30,6 +30,10 @@ RUN pip install --no-cache-dir torch torchvision torchaudio
 # Clone diffusion-pipe
 RUN git clone --recurse-submodules https://github.com/tdrussell/diffusion-pipe /diffusion_pipe
 
+# Fix: update ComfyUI submodule to include Mistral 3 tokenizer fix (commit 2129e7d)
+# Without this, Flux 2 training crashes with "IndexError: list index out of range" in sd1_clip.py
+RUN cd /diffusion_pipe/submodules/ComfyUI && git fetch origin && git checkout 2129e7d2
+
 # Patch: skip metadata keys (e.g. __index_timestep_zero__) in ComfyUI safetensors files
 RUN sed -i '/for key, tensor in iterate_safetensors(transformer_path):/a\            if key.startswith("__"):\n                continue' /diffusion_pipe/models/qwen_image.py
 

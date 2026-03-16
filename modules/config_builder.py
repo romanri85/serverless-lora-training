@@ -17,10 +17,13 @@ TRAINING_OVERRIDES = {
     "gradient_accumulation_steps": "gradient_accumulation_steps",
     "gradient_clipping": "gradient_clipping",
     "warmup_steps": "warmup_steps",
+    "weight_decay": "optimizer.weight_decay",
 }
 
 
-def build_configs(model_type, network_volume, work_dir, dataset_info, training_params=None, num_gpus=1):
+def build_configs(
+    model_type, network_volume, work_dir, dataset_info, training_params=None, num_gpus=1
+):
     """
     Build training TOML + dataset TOML from template and job params.
 
@@ -33,7 +36,9 @@ def build_configs(model_type, network_volume, work_dir, dataset_info, training_p
 
     # Read the TOML template
     template_name = config["toml_template"]
-    template_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "toml_templates", template_name)
+    template_path = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)), "toml_templates", template_name
+    )
 
     logger.info(f"Loading TOML template: {template_name}")
     with open(template_path, "r") as f:
@@ -97,7 +102,9 @@ def build_configs(model_type, network_volume, work_dir, dataset_info, training_p
     return {
         "training_toml": training_toml_path,
         "dataset_toml": dataset_toml_path,
-        "eval_dataset_toml": eval_dataset_toml_path if dataset_info.get("has_eval") else None,
+        "eval_dataset_toml": eval_dataset_toml_path
+        if dataset_info.get("has_eval")
+        else None,
         "output_dir": output_dir,
     }
 
