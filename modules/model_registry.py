@@ -141,17 +141,17 @@ MODEL_CONFIGS = {
     "flux2": {
         "toml_template": "flux2.toml",
         "default_epochs": 80,
-        "requires_hf_token": False,
+        "requires_hf_token": True,
         "supports_video": False,
         "path_replacements": {
-            "diffusion_model = '/models/flux2/flux2_dev_fp8mixed.safetensors'": "diffusion_model = '{nv}/models/flux2/flux2_dev_fp8mixed.safetensors'",
+            "diffusion_model = '/models/flux2/flux2-dev.safetensors'": "diffusion_model = '{nv}/models/flux2/flux2-dev.safetensors'",
             "vae = '/models/flux2/flux2-vae.safetensors'": "vae = '{nv}/models/flux2/flux2-vae.safetensors'",
-            "path = '/models/flux2/mistral_3_small_flux2_fp8.safetensors'": "path = '{nv}/models/flux2/mistral_3_small_flux2_fp8.safetensors'",
+            "path = '/models/flux2/mistral_3_small_flux2_bf16.safetensors'": "path = '{nv}/models/flux2/mistral_3_small_flux2_bf16.safetensors'",
         },
         "validation_paths": [
-            "{nv}/models/flux2/flux2_dev_fp8mixed.safetensors",
+            "{nv}/models/flux2/flux2-dev.safetensors",
             "{nv}/models/flux2/flux2-vae.safetensors",
-            "{nv}/models/flux2/mistral_3_small_flux2_fp8.safetensors",
+            "{nv}/models/flux2/mistral_3_small_flux2_bf16.safetensors",
         ],
     },
     "wan22_t2v_high": {
@@ -261,13 +261,16 @@ MODEL_DOWNLOADS = {
     ),
     "flux2": (
         "mkdir -p {nv}/models/flux2 && "
+        "hf download black-forest-labs/FLUX.2-dev "
+        "flux2-dev.safetensors "
+        "--local-dir /tmp/flux2_dl_bfl --token {token} && "
+        "mv /tmp/flux2_dl_bfl/flux2-dev.safetensors {nv}/models/flux2/ && "
+        "rm -rf /tmp/flux2_dl_bfl && "
         "hf download Comfy-Org/flux2-dev "
-        "split_files/diffusion_models/flux2_dev_fp8mixed.safetensors "
-        "split_files/text_encoders/mistral_3_small_flux2_fp8.safetensors "
+        "split_files/text_encoders/mistral_3_small_flux2_bf16.safetensors "
         "split_files/vae/flux2-vae.safetensors "
         "--local-dir /tmp/flux2_dl && "
-        "mv /tmp/flux2_dl/split_files/diffusion_models/flux2_dev_fp8mixed.safetensors {nv}/models/flux2/ && "
-        "mv /tmp/flux2_dl/split_files/text_encoders/mistral_3_small_flux2_fp8.safetensors {nv}/models/flux2/ && "
+        "mv /tmp/flux2_dl/split_files/text_encoders/mistral_3_small_flux2_bf16.safetensors {nv}/models/flux2/ && "
         "mv /tmp/flux2_dl/split_files/vae/flux2-vae.safetensors {nv}/models/flux2/ && "
         "rm -rf /tmp/flux2_dl"
     ),
