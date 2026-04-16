@@ -34,10 +34,10 @@ video_clip_mode = 'single_middle'
 
 [model]
 type = 'flux2'
-diffusion_model = '/models/flux2/flux2_dev_fp8mixed.safetensors'
+diffusion_model = '/models/flux2/flux2-dev.safetensors'
 vae = '/models/flux2/flux2-vae.safetensors'
 text_encoders = [
-    {path = '/models/flux2/mistral_3_small_flux2_fp8.safetensors', type = 'flux2'}
+    {path = '/models/flux2/mistral_3_small_flux2_bf16.safetensors', type = 'flux2'}
 ]
 dtype = 'bfloat16'
 diffusion_model_dtype = 'float8'
@@ -47,6 +47,7 @@ shift = 3
 [adapter]
 type = 'lora'
 rank = 32
+dropout = 0.0
 dtype = 'bfloat16'
 
 [optimizer]

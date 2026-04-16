@@ -11,6 +11,7 @@ TRAINING_OVERRIDES = {
     "epochs": "epochs",
     "learning_rate": "optimizer.lr",
     "lora_rank": "adapter.rank",
+    "lora_dropout": "adapter.dropout",
     "save_every_n_epochs": "save_every_n_epochs",
     "resolution": None,  # handled separately in dataset.toml
     "micro_batch_size_per_gpu": "micro_batch_size_per_gpu",
@@ -18,6 +19,8 @@ TRAINING_OVERRIDES = {
     "gradient_clipping": "gradient_clipping",
     "warmup_steps": "warmup_steps",
     "weight_decay": "optimizer.weight_decay",
+    "lr_scheduler": "lr_scheduler",
+    "uncond_fraction": "uncond_fraction",
 }
 
 
