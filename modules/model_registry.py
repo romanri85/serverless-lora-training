@@ -141,17 +141,17 @@ MODEL_CONFIGS = {
     "flux2": {
         "toml_template": "flux2.toml",
         "default_epochs": 80,
-        "requires_hf_token": True,
+        "requires_hf_token": False,
         "supports_video": False,
         "path_replacements": {
-            "diffusion_model = '/models/flux2/flux2-dev.safetensors'": "diffusion_model = '{nv}/models/flux2/flux2-dev.safetensors'",
+            "diffusion_model = '/models/flux2/flux2_dev_fp8mixed.safetensors'": "diffusion_model = '{nv}/models/flux2/flux2_dev_fp8mixed.safetensors'",
             "vae = '/models/flux2/flux2-vae.safetensors'": "vae = '{nv}/models/flux2/flux2-vae.safetensors'",
-            "path = '/models/flux2/mistral_3_small_flux2_bf16.safetensors'": "path = '{nv}/models/flux2/mistral_3_small_flux2_bf16.safetensors'",
+            "path = '/models/flux2/mistral_3_small_flux2_fp8.safetensors'": "path = '{nv}/models/flux2/mistral_3_small_flux2_fp8.safetensors'",
         },
         "validation_paths": [
-            "{nv}/models/flux2/flux2-dev.safetensors",
+            "{nv}/models/flux2/flux2_dev_fp8mixed.safetensors",
             "{nv}/models/flux2/flux2-vae.safetensors",
-            "{nv}/models/flux2/mistral_3_small_flux2_bf16.safetensors",
+            "{nv}/models/flux2/mistral_3_small_flux2_fp8.safetensors",
         ],
     },
     "wan22_t2v_high": {
